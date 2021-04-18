@@ -4,9 +4,12 @@ const paginate = require('../middlewares/paginate.mw');
 
 const TaskRouter = Router();
 
-TaskRouter.post('/', TaskController.createTask);
-TaskRouter.patch('/:taskId', TaskController.updateTask);
-TaskRouter.get('/', paginate, TaskController.getAllTasks);
-TaskRouter.delete('/:taskId', TaskController.deleteTask);
+TaskRouter.route('/')
+  .post(TaskController.createTask)
+  .get(paginate, TaskController.getAllTasks);
+
+TaskRouter.route('/:taskId')
+  .patch(TaskController.updateTask)
+  .delete(TaskController.deleteTask);
 
 module.exports = TaskRouter;

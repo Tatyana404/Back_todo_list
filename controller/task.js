@@ -16,24 +16,6 @@ module.exports.createTask = async (req, res, next) => {
   }
 };
 
-module.exports.getAllTasks = async (req, res, next) => {
-  try {
-    const { pagination = {} } = req;
-
-    const tasks = await Task.findAll({
-      ...pagination,
-    });
-
-    if (!tasks.length) {
-      return next(createError(404, 'No more tasks'));
-    }
-
-    res.send({ data: tasks });
-  } catch (err) {
-    next(err);
-  }
-};
-
 module.exports.updateTask = async (req, res, next) => {
   try {
     const {
@@ -56,6 +38,24 @@ module.exports.updateTask = async (req, res, next) => {
   }
 };
 
+module.exports.getAllTasks = async (req, res, next) => {
+  try {
+    const { pagination = {} } = req;
+
+    const tasks = await Task.findAll({
+      ...pagination,
+    });
+
+    if (!tasks.length) {
+      return next(createError(404, 'No more tasks'));
+    }
+
+    res.send({ data: tasks });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.deleteTask = async (req, res, next) => {
   try {
     const {
@@ -67,7 +67,7 @@ module.exports.deleteTask = async (req, res, next) => {
     if (rowsCount !== 1) {
       return next(createError(404, 'Task not found'));
     }
-    res.send({ data: `${rowsCount} Task successfully deleted` });
+    res.send({ data: taskId });
   } catch (err) {
     next(err);
   }
